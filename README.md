@@ -13,7 +13,6 @@
 * clone
 * Install required NPM modules
 * Modify Environment Variables 
-* Deploy
 ***
 ### Technology Stack:
 * Node.js
