@@ -35,7 +35,7 @@ router.delete('/sellers/products/delete/:id',sellerAuth,async (req,res)=>{
         const product = await Product.findOneAndDelete({_id:req.params.id,author:req.seller._id})
         res.status(200).send(product)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(400).send(e)
     }
 })
 

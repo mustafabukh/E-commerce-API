@@ -22,7 +22,7 @@ router.post('/sellers/logIn', async (req,res)=>{
     try {
         const user = await Seller.findByCredentials(req.body.id,req.body.password)
         const token = await user.generateAuthToken()
-        res.status(201).send({user,token})
+        res.status(200).send({user,token})
     } catch (e) {
         res.status(400).send(e.toString())
     }
@@ -32,7 +32,7 @@ router.post('/sellers/logOut',sellerAuth, async(req,res)=>{
     try {
         req.seller.tokens = req.seller.tokens.filter((token)=> token.token != req.token)
         await req.seller.save()
-        res.send()
+        res.status(200).send()
     } catch (e) {
         res.status(400).send(e)
     }
@@ -41,7 +41,7 @@ router.post('/sellers/logOutAll', sellerAuth, async (req,res)=>{
     try {
         req.seller.tokens = []
         await req.seller.save()
-        res.send()
+        res.status(200).send()
     } catch (e) {
         res.status(500).send(e)
     }
@@ -51,7 +51,7 @@ router.delete('/sellers/delete' , sellerAuth, async(req,res)=>{
         Product.deleteMany({seller:req.seller._id})
         await req.seller.remove()
 
-        res.send('Done!')
+        res.status(200).send('Done!')
     } catch (e) {
         res.status(400).send(e)
     }
@@ -94,7 +94,7 @@ router.get('/sellers/getinmsgs' , sellerAuth, async (req,res)=>{
     try {
         const id = req.seller._id
         const seller = await Seller.findById(id).populate('inMessages')
-        res.status(100).send(seller.inMessages)
+        res.status(200).send(seller.inMessages)
     } catch (e) {
         res.status(400).send(e.toString())
     }
@@ -103,7 +103,7 @@ router.get('/sellers/getoutmsgs' , sellerAuth, async (req,res)=>{
     try {
         const id = req.seller._id
         const seller = await Seller.findById(id).populate('outMessages')
-        res.status(100).send(seller.outMessages)
+        res.status(200).send(seller.outMessages)
     } catch (e) {
         res.status(400).send(e.toString())
     }

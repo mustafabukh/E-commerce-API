@@ -34,7 +34,7 @@ router.delete('/customers/orders/delete/:id',customerAuth,async (req,res)=>{
         const order = await Order.findOneAndDelete({_id:req.params.id,customer:req.customer._id})
         res.status(200).send(order)
     } catch (e) {
-        res.status(404).send(e)
+        res.status(400).send(e)
     }
 })
 module.exports = router

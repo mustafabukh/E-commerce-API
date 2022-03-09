@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
         default:'received'
     },
     cost:{
-        type:String,
+        type:mongoose.SchemaTypes.Decimal128,
         required:true,
         default:0
     }

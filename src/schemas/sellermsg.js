@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const sellerMsgSchema = new mongoose.Schema({
+    date:{
+        type:Date,
+        required:true,
+        default:Date.now
+    },
     sender:{
         type:mongoose.SchemaTypes.ObjectId,
         ref:'Seller',
