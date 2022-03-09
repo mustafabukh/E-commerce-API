@@ -1,9 +1,9 @@
 const express = require('express')
 const Seller = require('../models/seller')
-const Product = require('../models/product')
 const Customer = require('../models/customer')
-const sellerAuth = require('../middlewares/sellerAuth')
+const Product = require('../models/product')
 const SellerMsg = require('../models/sellerMsg')
+const sellerAuth = require('../middlewares/sellerAuth')
 
 const router = new express.Router()
 
@@ -46,9 +46,11 @@ router.post('/sellers/logOutAll', sellerAuth, async (req,res)=>{
         res.status(500).send(e)
     }
 })
-router.delete('/sellers' , sellerAuth, async(req,res)=>{
+router.delete('/sellers/delete' , sellerAuth, async(req,res)=>{
     try {
+        //remove seller's product before delete the seller account
         await req.seller.remove()
+
         res.send('Done!')
     } catch (e) {
         res.status(400).send(e)
@@ -71,7 +73,7 @@ router.patch('/sellers/account',sellerAuth, async(req,res)=>{
         res.status(400).send(e)
     }
 })
-router.post('/sellers/msg' , sellerAuth, async(req,res)=>{
+router.post('/sellers/sendmsg' , sellerAuth, async(req,res)=>{
     try {
         const customer = await Customer.findById(req.body.id)
         const seller = req.seller
@@ -82,35 +84,32 @@ router.post('/sellers/msg' , sellerAuth, async(req,res)=>{
             throw new Error('user sender not found')
         }
         const message = new SellerMsg({sender:seller._id,receiver:customer._id,text:req.body.text})
-        // const seller = req.seller
-        // const id = req.body.id
-        // console.log(id)
-        // const text = req.body.text
-        // seller.sendmsg(id,text)
         await message.save()
         res.status(200).send('sent!')
     } catch (e) {
         res.status(400).send(e.toString())
     }
 })
-router.get('/sellers/msg' , sellerAuth, async (req,res)=>{
+router.get('/sellers/getinmsgs' , sellerAuth, async (req,res)=>{
     try {
         const id = req.seller._id
-        console.log(id)
         const seller = await Seller.findById(id).populate('inMessages')
-        console.log(seller.inMessages)
         res.status(100).send(seller.inMessages)
-        // if(!seller){
-        //     throw new Error('user not found')
-        // }
-        // console.log(seller)
-        // await seller.populate('inMessages','text')
-        // console.log(JSON.stringify(seller.messages))
-        // console.log(seller.messages.toObject({ virtuals: true }).toJSON({ virtuals: true }))
-        // res.status(100).send(seller.messages[0].text)
     } catch (e) {
         res.status(400).send(e.toString())
     }
 })
+router.get('/sellers/getoutmsgs' , sellerAuth, async (req,res)=>{
+    try {
+        const id = req.seller._id
+        const seller = await Seller.findById(id).populate('outMessages')
+        res.status(100).send(seller.outMessages)
+    } catch (e) {
+        res.status(400).send(e.toString())
+    }
+})
+
+
+// add getting out message endpoint
 
 module.exports = router

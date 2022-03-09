@@ -30,8 +30,6 @@ userSchema.methods.generateAuthToken = async function (){
     const token = jwt.sign({_id:userID},'EcommerceAppSecKey',{expiresIn:'3 days'})
     user.tokens = user.tokens.concat({token})
     await user.save()
-    // const decoded = jwt.decode(token,'EcommerceAppSecKey')
-    // console.log(decoded)
     return token
 }
 

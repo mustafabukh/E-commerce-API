@@ -1,13 +1,10 @@
 const express = require('express')
-const Seller = require('../models/seller')
 const Product = require('../models/product')
-const Customer = require('../models/customer')
 const sellerAuth = require('../middlewares/sellerAuth')
-const customerAuth = require('../middlewares/customerAuth')
 
 const router = new express.Router()
 
-router.post('/sellers/addproduct',sellerAuth,async (req,res)=>{
+router.post('/sellers/products/add',sellerAuth,async (req,res)=>{
     try {
         const product = new Product({
             ...req.body,
@@ -22,7 +19,7 @@ router.post('/sellers/addproduct',sellerAuth,async (req,res)=>{
     
 })
 
-router.get('/sellers/allproducts',sellerAuth,async (req,res)=>{
+router.get('/sellers/products/getall',sellerAuth,async (req,res)=>{
     try {
         const id = req.seller._id
         await req.seller.populate('products')
@@ -33,7 +30,7 @@ router.get('/sellers/allproducts',sellerAuth,async (req,res)=>{
     
 })
 
-router.delete('/sellers/deleteproduct/:id',sellerAuth,async (req,res)=>{
+router.delete('/sellers/products/delete/:id',sellerAuth,async (req,res)=>{
     try {
         const product = await Product.findOneAndDelete({_id:req.params.id,author:req.seller._id})
         res.status(200).send(product)
@@ -42,7 +39,7 @@ router.delete('/sellers/deleteproduct/:id',sellerAuth,async (req,res)=>{
     }
 })
 
-router.patch('/sellers/updateproduct/:id',sellerAuth,async (req,res)=>{
+router.patch('/sellers/products/update/:id',sellerAuth,async (req,res)=>{
     allowed = ['name','description','price','stock','categoty']
     const product = await Product.findById(req.params.id)
     if(!product){
