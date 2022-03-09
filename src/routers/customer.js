@@ -17,8 +17,17 @@ router.post('/customers/signUp' , async (req,res)=>{
         res.status(400).send(e.toString())
     } 
 })
-//customer account delete
-//remove customer's orders before deleting the customer account
+
+router.delete('/customers/delete' , sellerAuth, async(req,res)=>{
+    try {
+        Order.deleteMany({customer:req.customer._id})
+        await req.customer.remove()
+        res.send('Done!')
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
 router.post('/customers/logIn', async (req,res)=>{
     try {
         const user = await Customer.findByCredentials(req.body.id,req.body.password)

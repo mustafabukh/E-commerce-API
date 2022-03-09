@@ -48,7 +48,7 @@ router.post('/sellers/logOutAll', sellerAuth, async (req,res)=>{
 })
 router.delete('/sellers/delete' , sellerAuth, async(req,res)=>{
     try {
-        //remove seller's product before delete the seller account
+        Product.deleteMany({seller:req.seller._id})
         await req.seller.remove()
 
         res.send('Done!')
@@ -108,8 +108,5 @@ router.get('/sellers/getoutmsgs' , sellerAuth, async (req,res)=>{
         res.status(400).send(e.toString())
     }
 })
-
-
-// add getting out message endpoint
 
 module.exports = router

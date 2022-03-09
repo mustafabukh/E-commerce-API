@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const SellerMsg = require('../models/sellerMsg')
 const Customer = require('../models/customer')
-
+require('dotenv').config()
+const passCode = process.env.userPassCode
 
 const userSchema = require('../schemas/user')
 userSchema.set('toJSON',{virtuals:true})
@@ -44,7 +45,7 @@ userSchema.statics.findByCredentials = async (id,password)=>{
 userSchema.methods.generateAuthToken = async function (){
     const user = this
     const userID = user._id.toString()
-    const token = jwt.sign({_id:userID},'EcommerceAppSecKey',{expiresIn:'3 days'})
+    const token = jwt.sign({_id:userID},passCode,{expiresIn:'3 days'})
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
