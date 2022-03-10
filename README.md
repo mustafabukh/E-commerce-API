@@ -23,7 +23,7 @@
 ### Description:
 The project includes endpoints for sellers and customers and their interaction with each other (internal messaging system) and with products (orders and product launches).
 ***
-### Ideas for features to be added :
+### Ideas for features to be added:
 * E-mailing service
 * Pagination endpoints
 * Payments method API
@@ -70,7 +70,7 @@ The project includes endpoints for sellers and customers and their interaction w
 |`/sellers/products/delete/:id`| `DELETE` |YES|-|Deleted P roduct details|
 |`/sellers/products/update/:id`| `PATCH` |YES|Product's data to be updated (name,description,price,stock and categoty)|Updated Product details|
 ***
-### Schemas :
+### Schemas:
 * #### User :
 | Name |Type  |Required?|
 |:--:|:--:|:--:|
