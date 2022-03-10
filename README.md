@@ -1,13 +1,13 @@
 # E-commerce-API
 
 # Table of Contents
-* Installation
-* Technology Stack
-* Description 
-* Ideas for features to be added
-* On progress features
-* Endpoints
-* Schemas
+* [Installation](#installation)
+* [Technology Stack](#technology-stack)
+* [Description](#description)
+* [Ideas for features to be added](#ideas-for-features-to-be-added)
+* [On progress features](#on-progress-features)
+* [Endpoints](#endpoints)
+* [Schemas](#schemas)
 ***
 ### Installation
 * clone
